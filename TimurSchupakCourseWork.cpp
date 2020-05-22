@@ -1,52 +1,54 @@
 ﻿#include <iostream>
 #include <vector>
+#include <array>
 #include <cctype>
 #include <string>
+#include <math.h>
+#include <algorithm>
 using namespace std;
 
 //Варіант 6б.Створення ієрархії класів на тему «Стрільба по мішенях»
 //Створити класи : «Абстрактна мішень»(поля - розміри мішені та двовимірний масив що описує мішень, методи «постріл», «координати центра»), підкласи «Кругла мішень», «Мішень у вигляді фігури людини».Використовувати двовимірний масив чисел, чи символів(за вибором студента).Метод постріл задає координати на мішені, а його результатом буде кількість балів, отримана стрілком.Метод координати цілі задає куди стріляти.Також створити можливість друкування мішені.Створити клас «Стрілок», який може викликати метод постріл для мішені.
 
-struct Height {
-	Height(int h) {
-		height = h;
-	}
-	int height;
-};
-
-struct Width {
-	explicit Width(int w) {
-		width = w;
-	}
-	int width;
-};
-
-struct TargetSize {
-	TargetSize() 
-	{
-		height = 10;
-		width = 10;
-	}
-	TargetSize(Height h, Width w) {
-		height = h.height;
-		width = w.width;
-	}
-private:
-	int height;
-	int width;
-};
-
 class AbstractTarget
 {	
-protected:
-	static int Count_of_AbstractTargets;
-	TargetSize Target_Size;
-	vector<vector<string>> Shape_Of_Figure;
-	virtual void BuildTheTarget(void) = 0;
+public:
+	void CoutTarget() const {
+		for (vector<char> fir : Shape_Of_Figure) {
+			for (char sec : fir) {
+				cout << sec;
+			}
+		}
+	}
 	int Shoot(int TargetNumber)
 	{
 
 	}
+protected:
+	static int Count_of_AbstractTargets;
+	vector<vector<char>> Shape_Of_Figure;
+};
+
+
+int AbstractTarget::Count_of_AbstractTargets = 0;
+
+class RoundTargetSize
+{
+public:
+	RoundTargetSize()
+	{
+		radius = 4.5;
+	}
+	RoundTargetSize(const double radius)
+	{
+		this->radius = radius;
+	}
+	int GetRadius() const
+	{
+		return radius;
+	}
+private:
+	double radius;
 };
 
 class RoundTarget : public AbstractTarget
@@ -54,38 +56,83 @@ class RoundTarget : public AbstractTarget
 public:
 	RoundTarget() 
 	{
-		BuildTheTarget();
+		BuildTheTarget(target_size);
 		Count_of_AbstractTargets++;
 	}
-	RoundTarget(TargetSize Target_Size)
+	RoundTarget(const RoundTargetSize target_size)
 	{
-		BuildTheTarget();
+		BuildTheTarget(target_size);
 		Count_of_AbstractTargets++;
 		Count_of_RoundTargets++;
 	}
 	
 private:
 	static int Count_of_RoundTargets;
-	virtual void BuildTheTarget(void) override
-	{
-		int x, y;
-
-		cout << "Draw circle:\n\n";
-		int circle_radius = 2.5;
-		for (y = 0; y < 2 * circle_radius + 1; y++) {
+	RoundTargetSize target_size;
+	void BuildTheTarget(const RoundTargetSize& target_size) {
+		int circle_radius = target_size.GetRadius();
+		for (int y = 0, x = 0, sizeX = 1, sizeY = 1; y < 2 * circle_radius + 1; y++) {
+			Shape_Of_Figure.resize(sizeY);
+			sizeY++;
 			for (x = 0; x < 2 * circle_radius + 1; x++) {
 				if ((int)hypot(abs(circle_radius - x), abs(circle_radius - y)) == circle_radius) { // Функция hypot вычисляет длину гипотенузы прямоугольного треугольника с заданной длиной двух сторон x и y.Вызов hypot эквивалентен следующему :sqrt(x*x + y*y);
-					cout << "#";
+					Shape_Of_Figure[y].resize(sizeX);
+					sizeX++;
+					Shape_Of_Figure[y][x] = '#';
 				}
 				else {
-					cout << " ";
+					Shape_Of_Figure[y].resize(sizeX);
+					sizeX++;
+					Shape_Of_Figure[y][x] = ' ';
 				}
 			}
-			cout << "\n";
+			Shape_Of_Figure[y].resize(sizeX);
+			Shape_Of_Figure[y][x] = '\n';
+			sizeX = 1;
 		}
-
-		cout << "\n";
 	}
+	
+};
+
+int RoundTarget::Count_of_RoundTargets = 0;
+
+struct Height {
+	Height(const int h) {
+		height = h;
+	}
+	int height;
+};
+
+struct Width {
+	explicit Width(const int w) {
+		width = w;
+	}
+	int width;
+};
+
+class HumanTargetSize
+{
+public:
+	HumanTargetSize()
+	{
+		height = 10;
+		width = 10;
+	}
+	HumanTargetSize(const Height h, const Width w) {
+		height = h.height;
+		width = w.width;
+	}
+	int GetHeight()const
+	{
+		return height;
+	}
+	int GetWidth()const
+	{
+		return width;
+	}
+private:
+	int height;
+	int width;
 };
 
 class HumanTarget : public AbstractTarget
@@ -96,41 +143,18 @@ private:
 	static int Count_of_HumanTargets;
 };
 
+int HumanTarget::Count_of_HumanTargets = 0;
+
 class Shooter
 {
 public:
 
 };
 
-void draw(void) {
-	int x, y;
-
-	cout << "Draw circle:\n\n";
-	int circle_radius = 7;
-	for (y = 0; y < 2 * circle_radius + 1; y++) {
-		for (x = 0; x < 2 * circle_radius + 1; x++) {
-			if ((int)hypot(abs(circle_radius - x), abs(circle_radius - y)) == circle_radius) { // Функция hypot вычисляет длину гипотенузы прямоугольного треугольника с заданной длиной двух сторон x и y.Вызов hypot эквивалентен следующему :sqrt(x*x + y*y);
-				cout << "#";
-			}
-			else {
-				cout << " ";
-			}
-		}
-		cout << "\n";
-	}
-
-	cout << "\n";
-}
-
 int main()
 {
-	TargetSize testSize {
-		Height(10),
-		Width(20)
-	};
-	
-	
-	draw();
-	
+	RoundTarget test;
+	test.CoutTarget();
+
 	return 0;
 }
