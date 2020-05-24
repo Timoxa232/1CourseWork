@@ -13,19 +13,35 @@ using namespace std;
 class AbstractTarget
 {	
 public:
+	AbstractTarget()
+	{
+		TargetIndex = Count_of_AbstractTargets;
+		Count_of_AbstractTargets++;
+	}
 	void CoutTarget() const {
 		for (vector<char> fir : Shape_Of_Figure) {
 			for (char sec : fir) {
 				cout << sec;
 			}
+			cout << endl;
 		}
 	}
 	int Shoot(int TargetNumber)
 	{
 
 	}
+	int GetQuantityOfAllTypes() const
+	{
+		return Count_of_AbstractTargets;
+	}
+	int GetIndex() const
+	{
+		return TargetIndex;
+	}
+	virtual int GetQuantityOfCurrTypes() const = 0;
 protected:
 	static int Count_of_AbstractTargets;
+	int TargetIndex;
 	vector<vector<char>> Shape_Of_Figure;
 };
 
@@ -54,16 +70,21 @@ private:
 class RoundTarget : public AbstractTarget
 {
 public:
-	RoundTarget() 
+	RoundTarget()
 	{
 		BuildTheTarget(target_size);
-		Count_of_AbstractTargets++;
-	}
-	RoundTarget(const RoundTargetSize target_size)
-	{
-		BuildTheTarget(target_size);
-		Count_of_AbstractTargets++;
+		//Count_of_AbstractTargets++; //вроде как можно не включать, если указать в дефолтном-абстракт-конструкторе 
 		Count_of_RoundTargets++;
+	}
+	RoundTarget(const RoundTargetSize& target_size)
+	{
+		BuildTheTarget(target_size);
+		//Count_of_AbstractTargets++;
+		Count_of_RoundTargets++;
+	}
+	int GetQuantityOfCurrTypes() const override
+	{
+		return Count_of_RoundTargets;
 	}
 	
 private:
@@ -86,8 +107,8 @@ private:
 					Shape_Of_Figure[y][x] = ' ';
 				}
 			}
-			Shape_Of_Figure[y].resize(sizeX);
-			Shape_Of_Figure[y][x] = '\n';
+			/*Shape_Of_Figure[y].resize(sizeX);
+			Shape_Of_Figure[y][x] = '\n';*/
 			sizeX = 1;
 		}
 	}
@@ -97,14 +118,14 @@ private:
 int RoundTarget::Count_of_RoundTargets = 0;
 
 struct Height {
-	Height(const int h) {
+	Height(const int& h) {
 		height = h;
 	}
 	int height;
 };
 
 struct Width {
-	explicit Width(const int w) {
+	explicit Width(const int& w) {
 		width = w;
 	}
 	int width;
@@ -118,7 +139,7 @@ public:
 		height = 10;
 		width = 10;
 	}
-	HumanTargetSize(const Height h, const Width w) {
+	HumanTargetSize(const Height& h, const Width& w) {
 		height = h.height;
 		width = w.width;
 	}
@@ -138,7 +159,10 @@ private:
 class HumanTarget : public AbstractTarget
 {
 public:
-	
+	int GetQuantityOfCurrTypes() const override
+	{
+		return Count_of_HumanTargets;
+	}
 private:
 	static int Count_of_HumanTargets;
 };
@@ -148,13 +172,37 @@ int HumanTarget::Count_of_HumanTargets = 0;
 class Shooter
 {
 public:
+	int Shoot(const AbstractTarget& CurrTarget)
+	{
+		return 1;
+	}
+};
+
+class ShootingGallery
+{
+public:
+
+private:
 
 };
+
+
+
+
 
 int main()
 {
 	RoundTarget test;
+	RoundTarget test2(6);
 	test.CoutTarget();
+
+	Shooter asd;
+	asd.Shoot(test);
+
+
+	vector<AbstractTarget*>vec;
+	vec.push_back(&test);
+	vec.push_back(&test2);
 
 	return 0;
 }
