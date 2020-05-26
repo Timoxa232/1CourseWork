@@ -21,8 +21,8 @@ private:
 	void DeleteTarget();
 	void Shoot();
 	void TargetsList();
-	void TargetSizeInfo();
-	void CoutTarget();
+	void TargetInfo();
 	void End();
 
+	bool TakeIndex(int& tmp_index);
 };

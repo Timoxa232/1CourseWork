@@ -8,7 +8,6 @@
 #include <algorithm>
 #include <map>
 
-#include "ShootingGallery.h"
 using namespace std;
 class AbstractTarget
 {
@@ -27,6 +26,5 @@ protected:
 	static int Count_of_AbstractTargets;
 	int TargetIndex;
 	vector<vector<char>> Shape_Of_Figure;
-
 };
 

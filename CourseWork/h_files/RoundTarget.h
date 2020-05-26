@@ -1,11 +1,7 @@
 #pragma once
 #include "AbstractTarget.h"
 #include <iostream>
-#include <vector>
-#include <cctype>
 #include <string>
-#include <math.h>
-#include <map>
 
 using namespace std;
 
