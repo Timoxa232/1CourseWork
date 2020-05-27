@@ -62,18 +62,17 @@ void ShootingGallery::MakeNewTarget()
 		{
 			int tmp_size;
 			do {
-				cout << "Enter a RoundTarget size: ";
 				cin >> command;
 			} while (ConvertStrToInt(command, tmp_size) == false);
 			cout << endl;
-			RoundTarget tmp_target(tmp_size);
-			map_RoundTargets[tmp_target.GetIndex()] = tmp_target;
-			map_AllTargets[tmp_target.GetIndex()] = &map_RoundTargets[tmp_target.GetIndex()];
-			cout << "Succesful! You make a target with index: " << tmp_target.GetIndex() << endl;
+			int tmp_index = GetNextIndex();
+			map_RoundTargets[tmp_index] = RoundTarget(tmp_size);
+			map_AllTargets[tmp_index] = &map_RoundTargets[tmp_index];
+			cout << "Succesful! You make a target with index: " << tmp_index << endl;
 		}
 		else if (command == "ls")
 		{
-			cout << "What target-type you want? (RoundTarget, HumanTarget): ";
+			cout << "What target-type you want? (RoundTarget 'size', HumanTarget 'size'): ";
 		}
 		else if (command == "HumanTarget")
 		{

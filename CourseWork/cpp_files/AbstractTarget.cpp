@@ -57,5 +57,5 @@ int AbstractTarget::StaticIndexCount = 0;
 
 int GetNextIndex()
 {
-	return AbstractTarget::Count_of_AbstractTargets;
+	return AbstractTarget::StaticIndexCount;
 }
