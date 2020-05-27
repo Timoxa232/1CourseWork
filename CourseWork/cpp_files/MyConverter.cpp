@@ -6,7 +6,7 @@ bool ConvertStrToInt(const string& from, int& to)
 	char* tmp = new char[100]{};
 	char* p_tmp = tmp;
 	for (const char& it : from) {
-		if (it < '1' || it > '9') {
+		if (it < '0' || it > '9') {
 			delete p_tmp;
 			//delete[] tmp;
 			cout << "Fail type: \"" + from + "\" Try it again!";

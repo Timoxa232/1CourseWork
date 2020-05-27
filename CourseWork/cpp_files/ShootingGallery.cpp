@@ -13,11 +13,11 @@ void ShootingGallery::Start()
 	cout << "ls - CommandList, back - back to previus page." << endl;
 	while (true)
 	{
-		cout << "Command: ";
+		cout << currShooter.GetName() << "/~: ";
 		cin >> command;
 		if (command == "ls")
 		{
-			cout << "You have commands: MakeNewTarget, DeleteTarget, Shoot, TargetsList, TargetInfo, End. Enter it: ";
+			cout << "You have commands: MakeNewTarget, DeleteTarget, Shoot, TargetsList, TargetInfo, End." << endl;
 		}
 		else if (command == "MakeNewTarget")
 		{
@@ -55,33 +55,37 @@ void ShootingGallery::MakeNewTarget()
 {
 	while (true)
 	{
-		cout << "What target-type you want? (RoundTarget, HumanTarget): ";
-		string choice;
-		cin >> choice;
-		if (choice == "RoundTarget")
+		cout << currShooter.GetName() << "/~" <<  "/MakeNewTarget: ";
+		string command;
+		cin >> command;
+		if (command == "RoundTarget")
 		{
 			int tmp_size;
 			do {
 				cout << "Enter a RoundTarget size: ";
-				cin >> choice;
-			} while (ConvertStrToInt(choice, tmp_size) == false);
+				cin >> command;
+			} while (ConvertStrToInt(command, tmp_size) == false);
 			cout << endl;
 			RoundTarget tmp_target(tmp_size);
 			map_RoundTargets[tmp_target.GetIndex()] = tmp_target;
 			map_AllTargets[tmp_target.GetIndex()] = &map_RoundTargets[tmp_target.GetIndex()];
 			cout << "Succesful! You make a target with index: " << tmp_target.GetIndex() << endl;
 		}
-		else if (choice == "HumanTarget")
+		else if (command == "ls")
+		{
+			cout << "What target-type you want? (RoundTarget, HumanTarget): ";
+		}
+		else if (command == "HumanTarget")
 		{
 			break;
 		}
-		else if (choice == "back")
+		else if (command == "back")
 		{
 			break;
 		}
 		else
 		{
-			cout << "Unkonown target-type: \"" + choice << "\" Try it again please!" << endl;
+			cout << "Unkonown target-type: \"" + command << "\" Try it again please!" << endl;
 		}
 	}
 }
@@ -90,7 +94,7 @@ void ShootingGallery::DeleteTarget()
 {
 	while (true)
 	{
-		cout << "Enter a command: Delete 'index', DeleteAll: ";
+		cout << currShooter.GetName() << "/~/DeleteTarget: ";
 		string command;
 		cin >> command;
 		if (command == "DeleteAll")
@@ -99,6 +103,10 @@ void ShootingGallery::DeleteTarget()
 			map_HumanTargets.clear();
 			map_RoundTargets.clear();
 			cout << "Deleting succesful!" << endl;
+		}
+		else if (command == "ls")
+		{
+			cout << "Enter a command: Delete 'index', DeleteAll.";
 		}
 		else if (command == "Delete")
 		{
@@ -152,7 +160,7 @@ void ShootingGallery::TargetInfo()
 {
 	while (true)
 	{
-		cout << "You have command: Info 'index', CoutTarget 'index': ";
+		cout << currShooter.GetName() << "/~/TargetInfo: ";
 		string command;
 		cin >> command;
 		if (command == "Info" || command == "CoutTarget")
@@ -162,6 +170,10 @@ void ShootingGallery::TargetInfo()
 			if (command == "Info")
 			{
 				cout << "index[" << tmp_index << "], type: " << map_AllTargets.at(tmp_index)->GetType() << ", size: " << map_AllTargets.at(tmp_index)->GetSize() << endl;
+			}
+			else if (command == "ls")
+			{
+				cout << "You have command: Info 'index', CoutTarget 'index': ";
 			}
 			else if (command == "CoutTarget")
 			{

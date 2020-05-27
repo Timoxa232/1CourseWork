@@ -20,7 +20,7 @@ RoundTarget::RoundTarget()
 	BuildTheTarget();
 }
 
-RoundTarget::RoundTarget(const RoundTargetSize& target_size)
+RoundTarget::RoundTarget(const RoundTargetSize& target_size):AbstractTarget("with index")
 {
 	this->target_size = target_size;
 	BuildTheTarget();
@@ -31,9 +31,9 @@ RoundTarget::~RoundTarget()
 	Count_of_RoundTargets--;
 }
 
-RoundTarget::RoundTarget(const RoundTarget& other)
+RoundTarget::RoundTarget(const RoundTarget& other):AbstractTarget(other)
 {
-	Count_of_RoundTargets++;
+	this->target_size = other.target_size;
 }
 
 int RoundTarget::GetQuantityOfCurrTypes() const
@@ -73,7 +73,6 @@ void RoundTarget::BuildTheTarget() {
 		Shape_Of_Figure[y][x] = '\n';*/
 		sizeX = 1;
 	}
-
 	Count_of_RoundTargets++;
 }
 

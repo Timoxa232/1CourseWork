@@ -4,7 +4,14 @@
 
 AbstractTarget::AbstractTarget()
 {
-	TargetIndex = Count_of_AbstractTargets;
+	Count_of_AbstractTargets++;
+	TargetIndex = -1;
+}
+
+AbstractTarget::AbstractTarget(const string& str)
+{
+	TargetIndex = StaticIndexCount;
+	StaticIndexCount++;
 	Count_of_AbstractTargets++;
 }
 
@@ -15,8 +22,8 @@ AbstractTarget::~AbstractTarget()
 
 AbstractTarget::AbstractTarget(const AbstractTarget& other)
 {
-	TargetIndex = Count_of_AbstractTargets;
-	Count_of_AbstractTargets++;
+	this->Shape_Of_Figure = other.Shape_Of_Figure;
+	TargetIndex = other.GetIndex();
 }
 
 void AbstractTarget::CoutTarget() const
@@ -34,10 +41,9 @@ int AbstractTarget::Shoot(int TargetNumber)
 	return 0;
 }
 
-int AbstractTarget::GetQuantityOfAllTypes()
+int AbstractTarget::GetQuantityOfAllTypes()const
 {
-	int ret = Count_of_AbstractTargets;
-	return ret;
+	return Count_of_AbstractTargets;
 }
 
 int AbstractTarget::GetIndex() const
@@ -47,3 +53,9 @@ int AbstractTarget::GetIndex() const
 
 int AbstractTarget::Count_of_AbstractTargets = 0;
 
+int AbstractTarget::StaticIndexCount = 0;
+
+int GetNextIndex()
+{
+	return AbstractTarget::Count_of_AbstractTargets;
+}
