@@ -11,12 +11,8 @@
 int main()
 {
 	ShootingGallery MyShootingGallery;
-	MyShootingGallery.Start();
+	MyShootingGallery.Start(); 
 
-	/*vector <AbstractTarget*> vec_Atarget;
-	vector <RoundTarget> vec_Rtarget;
-	map<int, AbstractTarget*> map_Atarget;
-	map<int, RoundTarget> map_Rtarget;*/
 
 	return 0;
 }

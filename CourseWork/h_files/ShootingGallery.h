@@ -11,7 +11,7 @@ using namespace std;
 class ShootingGallery
 {
 public:
-	void Start();
+	void Start();//Основная функция запускающая всё
 private:
 	map<int, AbstractTarget*> map_AllTargets;
 	map<int, RoundTarget> map_RoundTargets;

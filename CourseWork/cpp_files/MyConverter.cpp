@@ -9,14 +9,14 @@ bool ConvertStrToInt(const string& from, int& to)
 		if (it < '0' || it > '9') {
 			delete p_tmp;
 			//delete[] tmp;
-			cout << "Fail type: \"" + from + "\" Try it again!";
+			cout << "Fail type: \"" + from + "\" Try it again: ";
 			return false;
 		}
 		*tmp = it;
 		tmp++;
 	}
 	to = atoi(p_tmp);
-	//delete[] tmp;
+	//delete[] tmp; почему то не работает, хз почему, но оставлю на всякий случай
 	delete p_tmp;
 
 	return true;

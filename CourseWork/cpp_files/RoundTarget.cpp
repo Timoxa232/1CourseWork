@@ -73,6 +73,9 @@ void RoundTarget::BuildTheTarget() {
 		Shape_Of_Figure[y][x] = '\n';*/
 		sizeX = 1;
 	}
+	CentrePoint.x = Shape_Of_Figure.size() / 2;
+	CentrePoint.y = Shape_Of_Figure[0].size() / 2;
+	
 	Count_of_RoundTargets++;
 }
 

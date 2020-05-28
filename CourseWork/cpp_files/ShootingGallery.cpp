@@ -17,7 +17,7 @@ void ShootingGallery::Start()
 		cin >> command;
 		if (command == "ls")
 		{
-			cout << "You have commands: MakeNewTarget, DeleteTarget, Shoot, TargetsList, TargetInfo, End." << endl;
+			cout << "You have commands: MakeNewTarget, DeleteTarget, Shoot, TargetsList, TargetInfo, End, MyPoints." << endl;
 		}
 		else if (command == "MakeNewTarget")
 		{
@@ -29,7 +29,7 @@ void ShootingGallery::Start()
 		}
 		else if (command == "Shoot")
 		{
-
+			this->Shoot();
 		}
 		else if (command == "TargetsList")
 		{
@@ -38,6 +38,10 @@ void ShootingGallery::Start()
 		else if (command == "TargetInfo")
 		{
 			this->TargetInfo();
+		}
+		else if (command == "MyPoints")
+		{
+			cout << "You have: " << currShooter.GetPoint() << " points" << endl;
 		}
 		else if (command == "End")
 		{
@@ -66,7 +70,7 @@ void ShootingGallery::MakeNewTarget()
 			} while (ConvertStrToInt(command, tmp_size) == false);
 			cout << endl;
 			int tmp_index = GetNextIndex();
-			map_RoundTargets[tmp_index] = RoundTarget(tmp_size);
+			map_RoundTargets[tmp_index] = RoundTarget(tmp_size); //Более менее способ, по другому: индексы скачут
 			map_AllTargets[tmp_index] = &map_RoundTargets[tmp_index];
 			cout << "Succesful! You make a target with index: " << tmp_index << endl;
 		}
@@ -142,7 +146,72 @@ void ShootingGallery::DeleteTarget()
 
 void ShootingGallery::Shoot()
 {
-	string command;
+	while (true)
+	{
+		cout << currShooter.GetName() << "/~/Shoot: ";
+		string command;
+		cin >> command;
+		if (command == "MakeShoot")//Без этого никак, иначе всё упадёт
+		{
+			int tmp_index;
+			if (TakeIndex(tmp_index))
+			{
+				int tmp_x, tmp_y;
+				cout << "Enter a coordinate x: ";
+				do
+				{
+					cin >> command;
+				} while (ConvertStrToInt(command, tmp_x) == false);
+				cout << "Enter a coordinate y: ";
+				do
+				{
+					cin >> command;
+				} while (ConvertStrToInt(command, tmp_y) == false);
+				int points = currShooter.Shoot(map_AllTargets.at(tmp_index), tmp_x, tmp_y);
+				if (points == 0)
+				{
+					cout << "You missed! Your points: " << points;
+				}
+				else
+				{
+					cout << "You hit the target! Your points: ";
+					switch (points)
+					{
+					case 1: {
+						cout << points << " Not bad! You hit the edge of the target";
+						break;
+					}
+					case 5: {
+						cout << points << " Great! You hit on the target";
+						break;
+					}
+					case 10: {
+						cout << points << " Amazing! You hit the center";
+						break;
+					}
+					}
+				}
+				cout << endl;
+			}
+			else
+			{
+				cout << "There is no Target with that: \"" + to_string(tmp_index) + "\"index" << endl;
+			}
+		}
+		else if (command == "ls")
+		{
+			cout << "MakeShoot 'index'." << endl;
+		}
+		else if (command == "back")
+		{
+
+		}
+		else
+		{
+			cout << "Unknown command \"" + command + "\" Try it again please!" << endl;
+		}
+	}
+	
 }
 
 void ShootingGallery::TargetsList()
@@ -170,10 +239,6 @@ void ShootingGallery::TargetInfo()
 			{
 				cout << "index[" << tmp_index << "], type: " << map_AllTargets.at(tmp_index)->GetType() << ", size: " << map_AllTargets.at(tmp_index)->GetSize() << endl;
 			}
-			else if (command == "ls")
-			{
-				cout << "You have command: Info 'index', CoutTarget 'index': ";
-			}
 			else if (command == "CoutTarget")
 			{
 				map_AllTargets.at(tmp_index)->CoutTarget();
@@ -183,6 +248,10 @@ void ShootingGallery::TargetInfo()
 			{
 				cout << "There is not Target with \"" << tmp_index << "\" index. Try again!" << endl;
 			}
+		}
+		else if (command == "ls")
+		{
+			cout << "You have command: Info 'index', CoutTarget 'index': ";
 		}
 		else if (command == "back")
 		{
@@ -204,9 +273,12 @@ bool ShootingGallery::TakeIndex(int& tmp_index)
 {
 	tmp_index = 0;
 	string command;
-	cout << "Enter an Target index: ";
 	do
 	{
+		if (command != "")
+		{
+			cout << "Try again: ";
+		}
 		cin >> command;
 	} while (ConvertStrToInt(command, tmp_index) == false);
 	return map_AllTargets.count(tmp_index);

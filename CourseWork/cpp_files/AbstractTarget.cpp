@@ -36,6 +36,16 @@ void AbstractTarget::CoutTarget() const
 	}
 }
 
+void AbstractTarget::CoutTarget(const vector<vector<char>>& other) const
+{
+	for (vector<char> fir : other) {
+		for (char sec : fir) {
+			cout << sec;
+		}
+		cout << endl;
+	}
+}
+
 int AbstractTarget::Shoot(int TargetNumber)
 {
 	return 0;
